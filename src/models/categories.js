@@ -1,14 +1,14 @@
 import db from './db.js';
 
 const getAllCategories = async () => {
-    const query = `SELECT category_id, name, description FROM public.category ORDER BY name ASC;`;
+    const query = `SELECT category_id, name FROM public.category ORDER BY name ASC;`;
     const result = await db.query(query);
     return result.rows;
 };
 
 const getCategoryById = async (categoryId) => {
     const query = `
-        SELECT category_id, name, description 
+        SELECT category_id, name 
         FROM public.category 
         WHERE category_id = $1;
     `;
