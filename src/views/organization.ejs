@@ -3,17 +3,23 @@
 <main>
     <h1><%= title %></h1>
     
-    <% if (organizations && organizations.length > 0) { %>
+    <h2><%= organizationDetails.name %></h2>
+    <img src="/images/<%= organizationDetails.logo_filename %>" alt="<%= organizationDetails.name %> logo">
+    
+    <p><strong>Description:</strong> <%= organizationDetails.description %></p>
+
+    <h3>Projects Hosted by this Organization</h3>
+    <% if (projects && projects.length > 0) { %>
         <ul>
-            <% organizations.forEach(org => { %>
+            <% projects.forEach(project => { %>
                 <li>
-                    <a href="/organization/<%= org.organization_id %>"><strong><%= org.name %></strong></a>
+                    <a href="/project/<%= project.project_id %>"><%= project.title %></a>
                 </li>
             <% }); %>
         </ul>
     <% } else { %>
-        <p>No organizations available right now. Check back later!</p>
+        <p>No projects found for this organization.</p>
     <% } %>
-</main>ss
+</main>
 
 <%- include('partials/footer') %>
