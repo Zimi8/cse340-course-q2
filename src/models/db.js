@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'development' && process.env.ENABLE_SQL_LOGGING ===
         }
     };
 } else {
-    // In production, export the pool directly without logging overhead
+
     db = pool;
 }
 
