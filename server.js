@@ -46,9 +46,19 @@ app.use((req, res, next) => {
     if (req.session && req.session.user) {
         res.locals.isLoggedIn = true;
     }
-    res.locals.NODE_ENV = NODE_ENV;
+    res.locals.user = req.session?.user || null;
+    res.locals.NODE_ENV = process.env.NODE_ENV;
     next();
 });
+
+/* app.use((req, res, next) => {
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
+    res.locals.NODE_ENV = NODE_ENV;
+    next();
+}); */
 
 app.use(router);
 

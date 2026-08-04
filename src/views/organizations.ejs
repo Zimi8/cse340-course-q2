@@ -14,7 +14,10 @@
     <% } else { %>
         <p>No organizations available right now. Check back later!</p>
     <% } %>
-    <p><a href="/new-organization">Add a new organization</a></p>s
+
+    <% if (user && user.role_name === 'admin') { %>
+    <a href="/new-organization">Add New Organization</a>
+<% } %>
 </main>
 
 <%- include('partials/footer') %>

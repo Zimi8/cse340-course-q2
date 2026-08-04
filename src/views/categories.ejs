@@ -11,10 +11,16 @@
                 </li>
             <% }); %>
         </ul>
+        
     <% } else { %>
         <p>No categories available right now.</p>
     <% } %>
-  <p><a href="/new-category">Add a New Category</a></p> <!-- to avoid writning the rout in the browser or navigator-->
+
+
+<% if (user && user.role_name === 'admin') { %>
+    <a href="/new-category">Add New Category</a>
+<% } %>
+
 </main>
 
 <%- include('partials/footer') %>

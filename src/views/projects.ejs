@@ -16,6 +16,9 @@
     <% } else { %>
         <p>No projects available right now. Check back later!</p>
     <% } %>
+    <% if (user && user.role_name === 'admin') { %>
+    <a href="/new-project">Add New Project</a>
+<% } %>
 </main>
 
 <%- include('partials/footer') %>

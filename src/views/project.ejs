@@ -18,6 +18,12 @@
     <% } else { %>
         <p>No categories found for this project.</p>
     <% } %>
+    
+<% if (user && user.role_name === 'admin') { %>
+    <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+    <a href="/assign-categories/<%= project.project_id %>">Edit Project Categories</a>
+<% } %>
+
     <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
     <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
 </main>

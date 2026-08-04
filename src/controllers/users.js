@@ -9,6 +9,20 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
+const requireRole = (role) => {
+    return (req, res, next) => {
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in to access this page.');
+            return res.redirect('/login');
+        }
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'You do not have permission to access this page.');
+            return res.redirect('/');
+        }
+        next();
+    };
+};
+
 const showDashboard = (req, res) => {
     const user = req.session.user;
     res.render('dashboard', { 
@@ -27,13 +41,12 @@ const processUserRegistrationForm = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
-        const userId = await createUser(name, email, passwordHash);
+        await createUser(name, email, passwordHash);
         
         req.flash('success', 'Registration successful! Please log in.');
         res.redirect('/');
     } catch (error) {
-        console.error('Error registering user:', error);
-        req.flash('error', 'An error occurred during registration. Please try again.');
+        req.flash('error', 'An error occurred during registration.');
         res.redirect('/register');
     }
 };
@@ -49,18 +62,13 @@ const processLoginForm = async (req, res) => {
         if (user) {
             req.session.user = user;
             req.flash('success', 'Login successful!');
-            
-            if (process.env.NODE_ENV === 'development') {
-                console.log('User logged in:', user);
-            }
             res.redirect('/dashboard'); 
         } else {
             req.flash('error', 'Invalid email or password.');
             res.redirect('/login');
         }
     } catch (error) {
-        console.error('Error during login:', error);
-        req.flash('error', 'An error occurred during login. Please try again.');
+        req.flash('error', 'An error occurred during login.');
         res.redirect('/login');
     }
 };
@@ -75,6 +83,7 @@ const processLogout = async (req, res) => {
 
 export { 
     requireLogin,
+    requireRole,
     showDashboard,
     showUserRegistrationForm, 
     processUserRegistrationForm, 
