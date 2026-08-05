@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+
+
 
 const requireLogin = (req, res, next) => {
     if (!req.session || !req.session.user) {
@@ -81,6 +83,19 @@ const processLogout = async (req, res) => {
     res.redirect('/login');
 };
 
+const showUsersPage = async (req, res) => {
+    try {
+        const usersList = await getAllUsers();
+        res.render('users', { 
+            title: 'System Users',
+            users: usersList
+        });
+    } catch (error) {
+        req.flash('error', 'There was an error retrieving the users.');
+        res.redirect('/dashboard');
+    }
+};
+
 export { 
     requireLogin,
     requireRole,
@@ -89,5 +104,7 @@ export {
     processUserRegistrationForm, 
     showLoginForm, 
     processLoginForm, 
-    processLogout 
+    processLogout,
+    showUsersPage 
 };
+

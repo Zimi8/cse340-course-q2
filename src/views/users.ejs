@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <% if (users && users.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(userItem => { %>
+                    <tr>
+                        <td><%= userItem.name %></td>
+                        <td><%= userItem.email %></td>
+                        <td><%= userItem.role_name %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No users found.</p>
+    <% } %>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</main>
+
+<%- include('partials/footer') %>
+
